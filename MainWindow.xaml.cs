@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -6,13 +7,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
-
+using BLL;
 
 namespace Registro
 {
@@ -21,54 +23,70 @@ namespace Registro
     /// </summary>
     public partial class MainWindow : Window
     {
-        private object Utilidades;
-
         public MainWindow()
         {
             InitializeComponent();
+
+            Roles roles = new Roles();
+            FechaTextBox.Text = Convert.ToString(roles.Fecha);
+
+            var lista = RolesBLL.GetLista();
+            BaseDatos.ItemsSource = lista;
+        }
+         private void Limpiar()
+        {
+            RolIdTextBox.Text = string.Empty;
+            DescripcionTextBox.Text = string.Empty;
+
+            
         }
 
-        private void GuardarButton_Click(object sender, RoutedEventArgs e)
+        private void GuardarButton_Click(Object guardar, RoutedEventArgs e) //Boton Guardar.
         {
-            Roles rol = new Roles(RolIDTextBox.Text);
+            var rolId = RolIdTextBox.Text;
 
-          var paso = RolesBLL.Insertar(rol);
+            var descripcion = DescripcionTextBox.Text;
 
-          if (paso)
-          {
-          MessageBox.Show("Rol añadido con exito");
-          }
-          else 
-          MessageBox.Show("No se pudo añadir este rol");
+            Roles nuevo = new Roles(rolId, descripcion);
+
+            FechaTextBox.Text = Convert.ToString(nuevo.Fecha); //El TextBox de Fecha tome la fecha actual.
+
+            var confirmacion = RolesBLL.Insertar(nuevo);
+
+            if(confirmacion)
+            {
+                MessageBox.Show("Rol guardado exitosamente"); //Indicando que se ha guardado el Rol/s ingresado.
+                var lista = RolesBLL.GetLista();
+                BaseDatos.ItemsSource = lista;
+            }
+            else
+            {
+                MessageBox.Show("Error, no se ha podido guardar...");
+            }
         }
-        private void EliminarButton_Click(object sender, RoutedEventArgs e)
-    {
-         Roles rol = new Roles(RolIDTextBox.Text);
-         var paso = RolesBLL.Eliminar(rol);
-         if (paso)
+
+        private void EditarButton_Click(Object editar, RoutedEventArgs e) //Boton Editar.
         {
+                //Editar rol
+        }
+        
+
+        private void EliminarButton_Click(Object eliminar, RoutedEventArgs e) //Boton Eliminar.
+        { 
+            int id;
+            int.TryParse(RolIdTextBox.Text, out id);
+            
+            
             Limpiar();
-            MessageBox.Show("Registro Eliminado");
-        }
-        else 
-        MessageBox.Show("No fue posible eliminar");
-    }
 
-        private void Limpiar()
-        {
-            throw new System.NotImplementedException();
-        }
+               if (RolesBLL.Eliminar(id))
+                MessageBox.Show("Eliminado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                MessageBox.Show("Error, no se pudo eliminar", "Fallo");
+            }
 
-        private void ValidarButton_Click(object sender, RoutedEventArgs e)  
-{  
-    if (string.IsNullOrWhiteSpace(this.RolIDTextBox.Text))  
-        MessageBox.Show("El campo Rol ID se debe rellenar.");  
-        else 
-        MessageBox.Show("Campo validado correctamente");
+        }
 }
-    }
-    }
-
     
 
 

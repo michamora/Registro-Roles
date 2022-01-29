@@ -5,31 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Registro"
         mc:Ignorable="d"
-        Title="Registro de Roles" Height="300" Width="400">
+        Title="Registro de Roles" Height="510" Width="500" Foreground = "#FF252526"> 
     <Grid>
- <StackPanel Margin ="16" Orientation ="Vertical">
- <TextBlock Text ="Registro" FontSize="24"/>
-
- <TextBlock Text="Rol ID: "/>
- <TextBox x:Name= "RolIDTextBox" Text="" />
- <TextBlock Text="Fecha Creacion: "/>
- <TextBox x:Name= "FechaCreacionTextBox" Text="" />
- <TextBlock Text="Descripcion: "/>
- <TextBox x:Name= "DescripcionTextBox" Text="" />
-
- <StackPanel 
-        Margin = "0,16,0,0"
-
-        Orientation ="Horizontal"
-        HorizontalAlignment="Center" >
-
-        <Button Content ="📥Guardar" Click="GuardarButton_Click" />
-        <Button Content ="📋Editar" />
-        <Button Content ="❌Eliminar" Click="EliminarButton_Click"/>
-        <Button Content ="✅Validar" Click="ValidarButton_Click"/>
         
- </StackPanel>
- </StackPanel>
+        <StackPanel Margin ="10" Orientation="Vertical">
+         <TextBlock Text ="Registro" FontSize="20" /> 
+          <StackPanel Margin = "28" Orientation="Vertical">
+           <StackPanel Margin = "4" Orientation="Horizontal">
+            <TextBlock Text = "Rol ID:          " Margin ="4" FontSize="15" />
+             <TextBox x:Name = "RolIdTextBox" Text="0" Width="40" />
 
+    </StackPanel>
+
+               <StackPanel Margin = "4" Orientation="Horizontal">
+            <TextBlock Text = "Fecha:           " Margin ="4" FontSize="15" />
+          <TextBox x:Name = "FechaTextBox" Text="" Width="139" Background = "#FFE0E3E6" />
+
+    </StackPanel>
+
+          <StackPanel Margin = "4" Orientation="Horizontal">
+           <TextBlock Text = "Descripción: " Margin ="4" FontSize="15" />
+            <TextBox x:Name = "DescripcionTextBox" Text="" Width="140" />
+
+    </StackPanel>
+
+             <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center"> 
+
+           <Button Content ="📥Guardar" Margin="7.0" Height="40" Width="80" Background = "#FFFDF4BF" Click="GuardarButton_Click" />
+         <Button Content ="📋Editar" Margin="7.0" Height="40" Width="80" Background = "#FFFDF4BF"  Click="EditarButton_Click" />
+       <Button Content ="❌Eliminar" Margin="7.0" Height="40" Width="80" Background = "#FFFDF4BF"  Click="EliminarButton_Click" />
+
+    </StackPanel>
+
+    <DataGrid
+                x:Name="BaseDatos" Height="200" Width="400"
+                Background = "#FFF5F5F5" HorizontalAlignment="Center" >
+    </DataGrid>
+    </StackPanel>
+            
+    </StackPanel>
     </Grid>
 </Window>
